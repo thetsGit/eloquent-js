@@ -10,4 +10,4 @@ const { compareRobots } = require("./compareRobots.js");
 // console.log(compareRobots(routeRobot, [], goalOrientedRobot, []));
 
 // exercise (2)
-// console.log(compareRobots(goalOrientedRobot, [], goalOrientedRobotV2, []));
+console.log(compareRobots(goalOrientedRobot, [], goalOrientedRobotV2, []));
