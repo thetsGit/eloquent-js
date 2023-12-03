@@ -1,5 +1,7 @@
 const { runRobot } = require("./runRobot.js");
 const { VillageState } = require("./VillageState.js");
-const { goalOrientedRobot } = require("./robots.js");
+const { goalOrientedRobot, routeRobot } = require("./robots.js");
+const { compareRobots } = require("./compareRobots.js");
 
-runRobot(VillageState.random(), goalOrientedRobot, []);
+// exercise(1)
+console.log(compareRobots(routeRobot, [], goalOrientedRobot, []));

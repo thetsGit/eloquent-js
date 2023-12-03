@@ -11,6 +11,7 @@ function runRobot(state, robot, memory) {
 	}
 
 	console.log(`Done in ${turn} turns`);
+	return turn;
 }
 
 module.exports = {
