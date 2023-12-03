@@ -1,7 +1,13 @@
-const { runRobot } = require("./runRobot.js");
-const { VillageState } = require("./VillageState.js");
-const { goalOrientedRobot, routeRobot } = require("./robots.js");
+const {
+	goalOrientedRobot,
+	routeRobot,
+	goalOrientedRobotV2,
+	goalOrientedRobotV3,
+} = require("./robots.js");
 const { compareRobots } = require("./compareRobots.js");
 
 // exercise(1)
-console.log(compareRobots(routeRobot, [], goalOrientedRobot, []));
+// console.log(compareRobots(routeRobot, [], goalOrientedRobot, []));
+
+// exercise (2)
+// console.log(compareRobots(goalOrientedRobot, [], goalOrientedRobotV2, []));

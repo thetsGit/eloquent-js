@@ -41,9 +41,103 @@ function goalOrientedRobot({ place, parcels }, route) {
 	return { direction: route[0], memory: route.slice(1) };
 }
 
+// added smarter parcel picking feature
+function goalOrientedRobotV2({ place: currentPlace, parcels }, route) {
+	if (route.length == 0) {
+		let allPossiblePaths = [];
+
+		const allPossibleDestinations = parcels
+			.reduce((allDestinations, { place, address }) => {
+				const isDestinationIncluded = (newDestination) =>
+					allDestinations.includes(newDestination);
+
+				let destinationsToBeAdded = [];
+
+				if (!isDestinationIncluded(place)) {
+					destinationsToBeAdded.push(place);
+				}
+
+				if (place === currentPlace && !isDestinationIncluded(address)) {
+					destinationsToBeAdded.push(address);
+				}
+
+				return [...allDestinations, ...destinationsToBeAdded];
+			}, [])
+			.filter((destination) => destination !== currentPlace);
+
+		for (const destination of allPossibleDestinations) {
+			allPossiblePaths.push(
+				findRoute(roadGraph, currentPlace, destination)
+			);
+		}
+
+		route = allPossiblePaths.sort(
+			(route1, route2) => route1.length - route2.length
+		)[0];
+	}
+
+	return {
+		direction: route[0],
+		memory: route.slice(1),
+	};
+}
+
+// added smarter parcel picking feature + cache system
+function goalOrientedRobotV3(
+	{ place: currentPlace, parcels },
+	{ route, cachedPaths }
+) {
+	if (route.length == 0) {
+		let allPotentialPaths = [];
+
+		const allPotentialDestinations = parcels
+			.reduce((allDestinations, { place, address }) => {
+				const isDestinationIncluded = (newDestination) =>
+					allDestinations.includes(newDestination);
+
+				let destinationsToBeAdded = [];
+
+				if (!isDestinationIncluded(place)) {
+					destinationsToBeAdded.push(place);
+				}
+
+				if (place === currentPlace && !isDestinationIncluded(address)) {
+					destinationsToBeAdded.push(address);
+				}
+
+				return [...allDestinations, ...destinationsToBeAdded];
+			}, [])
+			.filter((destination) => destination !== currentPlace);
+
+		for (const destination of allPotentialDestinations) {
+			const cachePathKey = `${currentPlace}-${destination}`;
+
+			if (!cachedPaths[cachePathKey]) {
+				cachedPaths[cachePathKey] = findRoute(
+					roadGraph,
+					currentPlace,
+					destination
+				);
+			}
+
+			allPotentialPaths.push(cachedPaths[cachePathKey]);
+		}
+
+		route = allPotentialPaths.sort(
+			(route1, route2) => route1.length - route2.length
+		)[0];
+	}
+	return {
+		direction: route[0],
+		memory: { route: route.slice(1), cachedPaths },
+	};
+}
+
 module.exports = {
 	randomPick,
 	randomRobot,
 	routeRobot,
 	goalOrientedRobot,
+	goalOrientedRobotV2,
+	goalOrientedRobotV3,
 };
