@@ -41,7 +41,7 @@ function goalOrientedRobot({ place, parcels }, route) {
 	return { direction: route[0], memory: route.slice(1) };
 }
 
-// added smarter parcel picking feature
+// added smarter route calculation
 function goalOrientedRobotV2({ place: currentPlace, parcels }, route) {
 	if (route.length == 0) {
 		let allPossiblePaths = [];
@@ -82,7 +82,7 @@ function goalOrientedRobotV2({ place: currentPlace, parcels }, route) {
 	};
 }
 
-// added smarter parcel picking feature + cache system
+// added smarter route calculation + cache system for faster route calculation
 function goalOrientedRobotV3(
 	{ place: currentPlace, parcels },
 	{ route, cachedPaths }
@@ -133,6 +133,81 @@ function goalOrientedRobotV3(
 	};
 }
 
+// added smarter route calculation + task priority calculation to determine which route should be prioritized if there're more than two or more shortest routes
+function goalOrientedRobotV4({ place: currentPlace, parcels }, route) {
+	if (route.length == 0) {
+		const allPossibleDestinations = parcels
+			.reduce((allDestinations, { place, address }) => {
+				let destinationsToBeAdded = [];
+				const isAddressConsidered = place === currentPlace; // address is only considered if the parcel is already picked
+
+				const isDestinationIncluded = (locationToBeChecked) =>
+					allDestinations.find(
+						({ location }) => location === locationToBeChecked
+					);
+
+				// priority per place = 2 | priority per address = 1
+				const destinationsMightBeAdded = [
+					{ location: place, priority: 2 },
+					{
+						location: isAddressConsidered ? address : null,
+						priority: 1,
+					},
+				];
+
+				destinationsMightBeAdded.map(({ location, priority }) => {
+					if (location) {
+						if (!isDestinationIncluded(location)) {
+							destinationsToBeAdded.push({
+								location,
+								priority,
+							});
+						} else {
+							allDestinations = allDestinations.map(
+								(destination) => {
+									return destination.location === location
+										? {
+												location,
+												priority:
+													destination.priority +
+													priority,
+										  }
+										: destination;
+								}
+							);
+						}
+					}
+				});
+
+				return [...allDestinations, ...destinationsToBeAdded];
+			}, [])
+			.filter(({ location }) => location !== currentPlace);
+
+		let allPossiblePaths = [];
+		for (const { location, priority } of allPossibleDestinations) {
+			allPossiblePaths.push({
+				paths: findRoute(roadGraph, currentPlace, location),
+				priority,
+			});
+		}
+
+		// exclude "priority"
+		route = allPossiblePaths.sort((route1, route2) => {
+			if (route1.paths.length !== route2.paths.length) {
+				return route1.paths.length - route2.paths.length;
+			}
+
+			// swap route2 and route1 positions for substration since priority and route's length are inversely proportional
+			return route2.priority - route1.priority;
+		})[0].paths;
+	}
+
+	return {
+		direction: route[0],
+		memory: route.slice(1),
+	};
+}
+
 module.exports = {
 	randomPick,
 	randomRobot,
@@ -140,4 +215,5 @@ module.exports = {
 	goalOrientedRobot,
 	goalOrientedRobotV2,
 	goalOrientedRobotV3,
+	goalOrientedRobotV4,
 };
