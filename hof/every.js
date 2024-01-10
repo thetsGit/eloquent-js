@@ -1,11 +1,11 @@
-export const everyWithNormalLoop = (arr, test) => {
-	for (const currentVal of arr) {
-		if (!test(currentVal)) {
-			return false;
-		}
-	}
+const everyWithNormalLoop = (arr, test) => {
+  for (const currentVal of arr) {
+    if (!test(currentVal)) {
+      return false;
+    }
+  }
 
-	return true;
+  return true;
 };
 
 console.log(everyWithNormalLoop([1, 3, 5], (n) => n < 10));
@@ -17,20 +17,20 @@ console.log(everyWithNormalLoop([2, 4, 16], (n) => n < 10));
 console.log(everyWithNormalLoop([], (n) => n < 10));
 // → true
 
-export const everyWithSomeFunc = (arr, test) =>
-	!arr.reduce(
-		(accumulator, current) => accumulator + (![current].some(test) || ""),
-		""
-	);
+const everyWithSomeFunc = (arr, test) =>
+  !arr.reduce(
+    (accumulator, current) => accumulator + (![current].some(test) || ""),
+    "",
+  );
 
 console.log(everyWithSomeFunc([1, 3, 5], (n) => n < 1));
 // → false
 
 console.log(
-	everyWithSomeFunc(
-		[2, 4, 16],
-		(n) => !(n % 2) // checks if even number
-	)
+  everyWithSomeFunc(
+    [2, 4, 16],
+    (n) => !(n % 2), // checks if even number
+  ),
 );
 // → true
 
