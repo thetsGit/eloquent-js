@@ -19,8 +19,8 @@ console.log(everyWithNormalLoop([], (n) => n < 10));
 
 const everyWithSomeFunc = (arr, test) =>
   !arr.reduce(
-    (accumulator, current) => accumulator + (![current].some(test) || ""),
-    "",
+    (accumulator, current) => accumulator + (![current].some(test) || ''),
+    '',
   );
 
 console.log(everyWithSomeFunc([1, 3, 5], (n) => n < 1));

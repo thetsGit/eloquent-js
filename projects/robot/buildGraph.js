@@ -7,14 +7,14 @@ function buildGraph(edges) {
       graph[from].push(to);
     }
   }
-  for (let [from, to] of edges.map((r) => r.split("-"))) {
+  for (let [from, to] of edges.map((r) => r.split('-'))) {
     addEdge(from, to);
     addEdge(to, from);
   }
   return graph;
 }
 
-const { roads } = require("./data");
+const { roads } = require('./data');
 const roadGraph = buildGraph(roads);
 
 module.exports = {

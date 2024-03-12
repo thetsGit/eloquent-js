@@ -1,4 +1,4 @@
-const { roadGraph } = require("./buildGraph");
+const { roadGraph } = require('./buildGraph');
 
 function randomPick(array) {
   let choice = Math.floor(Math.random() * array.length);
@@ -11,7 +11,7 @@ function randomRobot(state) {
 
 function routeRobot(state, memory) {
   if (memory.length == 0) {
-    memory = require("./data").staticMailRoute;
+    memory = require('./data').staticMailRoute;
   }
   return { direction: memory[0], memory: memory.slice(1) };
 }

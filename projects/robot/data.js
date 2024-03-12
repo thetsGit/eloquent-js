@@ -8,27 +8,27 @@ const roads = [
   "Ernie's House-Grete's House",
   "Grete's House-Farm",
   "Grete's House-Shop",
-  "Marketplace-Farm",
-  "Marketplace-Post Office",
-  "Marketplace-Shop",
-  "Marketplace-Town Hall",
-  "Shop-Town Hall",
+  'Marketplace-Farm',
+  'Marketplace-Post Office',
+  'Marketplace-Shop',
+  'Marketplace-Town Hall',
+  'Shop-Town Hall',
 ];
 
 const staticMailRoute = [
   "Alice's House",
-  "Cabin",
+  'Cabin',
   "Alice's House",
   "Bob's House",
-  "Town Hall",
+  'Town Hall',
   "Daria's House",
   "Ernie's House",
   "Grete's House",
-  "Shop",
+  'Shop',
   "Grete's House",
-  "Farm",
-  "Marketplace",
-  "Post Office",
+  'Farm',
+  'Marketplace',
+  'Post Office',
 ];
 
 module.exports = {

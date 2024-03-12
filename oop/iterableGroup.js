@@ -1,4 +1,4 @@
-const Group = require("./group");
+const Group = require('./group');
 
 class IterableGroup {
   constructor(group) {
@@ -22,6 +22,6 @@ Group.prototype[Symbol.iterator] = function () {
   return new IterableGroup(this);
 };
 
-for (let value of Group.from(["a", "b", "c"])) {
+for (let value of Group.from(['a', 'b', 'c'])) {
   console.log(value);
 }

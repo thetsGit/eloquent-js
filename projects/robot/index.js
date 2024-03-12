@@ -4,8 +4,8 @@ const {
   goalOrientedRobotV2,
   goalOrientedRobotV3,
   goalOrientedRobotV4,
-} = require("./robots.js");
-const { compareRobots } = require("./compareRobots.js");
+} = require('./robots.js');
+const { compareRobots } = require('./compareRobots.js');
 
 // exercise(1)
 // console.log(compareRobots(routeRobot, [], goalOrientedRobot, []));

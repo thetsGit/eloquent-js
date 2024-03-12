@@ -1,4 +1,4 @@
-const { SCRIPTS } = require("../scripts");
+const { SCRIPTS } = require('../scripts');
 
 function dominantDirection(text) {
   function countBy(items, getName) {
@@ -39,7 +39,7 @@ function dominantDirection(text) {
   });
 
   if (!countsByDirection.length) {
-    throw new Error("No scripts found");
+    throw new Error('No scripts found');
   }
 
   const sortByCount = (a, b) => {
@@ -55,4 +55,4 @@ function dominantDirection(text) {
   return countsByDirection.sort(sortByCount)[0];
 }
 
-console.log(dominantDirection("Hey, مساء الخير"));
+console.log(dominantDirection('Hey, مساء الخير'));

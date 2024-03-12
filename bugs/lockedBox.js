@@ -8,7 +8,7 @@ const box = {
   },
   _content: [],
   get content() {
-    if (this.locked) throw new Error("Locked!");
+    if (this.locked) throw new Error('Locked!');
     return this._content;
   },
 };
@@ -27,15 +27,15 @@ function withBoxUnlocked(body) {
 }
 
 withBoxUnlocked(function () {
-  box.content.push("gold piece");
+  box.content.push('gold piece');
 });
 
 try {
   withBoxUnlocked(function () {
-    throw new Error("Pirates on the horizon! Abort!");
+    throw new Error('Pirates on the horizon! Abort!');
   });
 } catch (e) {
-  console.log("Error raised: " + e);
+  console.log('Error raised: ' + e);
 }
 console.log(box.locked);
 // → true
