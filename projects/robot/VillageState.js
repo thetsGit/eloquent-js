@@ -1,5 +1,5 @@
-const { randomPick } = require("./robots.js");
-const { roadGraph } = require("./buildGraph.js");
+const { randomPick } = require('./robots.js');
+const { roadGraph } = require('./buildGraph.js');
 
 class VillageState {
   constructor(place, parcels) {
@@ -33,7 +33,7 @@ class VillageState {
       parcels.push({ place, address });
     }
 
-    return new VillageState("Post Office", parcels);
+    return new VillageState('Post Office', parcels);
   }
 }
 
