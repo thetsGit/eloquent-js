@@ -2,7 +2,7 @@
 let map = { one: true, two: true, hasOwnProperty: true };
 
 // Fix this call
-console.log(map.hasOwnProperty('one'));
+console.log(Object.hasOwnProperty.call(map, 'one'));
 // TypeError: map.hasOwnProperty is not a function
 
 // fixed

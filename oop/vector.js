@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 class Vec {
   constructor(x, y) {
     this.x = x;

@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 class PGroup {
   constructor(items) {
     this.items = items;
