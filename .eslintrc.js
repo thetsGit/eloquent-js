@@ -1,6 +1,10 @@
 module.exports = {
   root: true,
-  extends: ['plugin:prettier/recommended', 'eslint:recommended'],
+  extends: [
+    'plugin:prettier/recommended',
+    'eslint:recommended',
+    'plugin:import/recommended',
+  ],
   plugins: ['prettier'],
   parserOptions: {
     ecmaVersion: 'latest',
@@ -11,5 +15,6 @@ module.exports = {
   },
   rules: {
     'no-unused-vars': 'warn',
+    'import/no-unresolved': [2, { commonjs: true }],
   },
 };

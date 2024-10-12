@@ -1,9 +1,7 @@
-const { roadGraph } = require('./buildGraph');
+const { roadGraph } = require('./data');
 
-function randomPick(array) {
-  let choice = Math.floor(Math.random() * array.length);
-  return array[choice];
-}
+const { randomPick } = require('./utils');
+const { findRoute } = require('./helpers');
 
 function randomRobot(state) {
   return { direction: randomPick(roadGraph[state.place]) };
@@ -14,19 +12,6 @@ function routeRobot(state, memory) {
     memory = require('./data').staticMailRoute;
   }
   return { direction: memory[0], memory: memory.slice(1) };
-}
-
-function findRoute(graph, from, to) {
-  let work = [{ at: from, route: [] }];
-  for (let i = 0; i < work.length; i++) {
-    let { at, route } = work[i];
-    for (let place of graph[at]) {
-      if (place == to) return route.concat(place);
-      if (!work.some((w) => w.at == place)) {
-        work.push({ at: place, route: route.concat(place) });
-      }
-    }
-  }
 }
 
 function goalOrientedRobot({ place, parcels }, route) {
@@ -203,7 +188,6 @@ function goalOrientedRobotV4({ place: currentPlace, parcels }, route) {
 }
 
 module.exports = {
-  randomPick,
   randomRobot,
   routeRobot,
   goalOrientedRobot,

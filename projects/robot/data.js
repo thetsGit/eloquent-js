@@ -1,3 +1,5 @@
+const { buildGraph } = require('ez-graph.js');
+
 const roads = [
   "Alice's House-Bob's House",
   "Alice's House-Cabin",
@@ -31,7 +33,10 @@ const staticMailRoute = [
   'Post Office',
 ];
 
+const roadGraph = buildGraph(roads);
+
 module.exports = {
   roads,
   staticMailRoute,
+  roadGraph,
 };

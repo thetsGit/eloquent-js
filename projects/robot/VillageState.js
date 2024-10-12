@@ -1,5 +1,5 @@
-const { randomPick } = require('./robots.js');
-const { roadGraph } = require('./buildGraph.js');
+const { roadGraph } = require('./data.js');
+const { randomPick } = require('./utils.js');
 
 class VillageState {
   constructor(place, parcels) {
