@@ -21,7 +21,10 @@ do(define(pow, fun(base, exp,
 `);
 // → 1024
 
-// Array support test
+/**
+ * Array support test
+ */
+
 run(`
 do(define(sum, fun(array,
      do(define(i, 0),
@@ -33,3 +36,15 @@ do(define(sum, fun(array,
    print(sum(array(1, 2, 3))))
 `);
 // → 6
+
+/**
+ * Comment support tests
+ */
+
+console.log(parse('# hello\nx'));
+// → {type: "word", name: "x"}
+
+console.log(parse('a # one\n   # two\n()'));
+// → {type: "apply",
+//    operator: {type: "word", name: "a"},
+//    args: []}
