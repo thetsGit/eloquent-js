@@ -58,6 +58,15 @@ specialForms.fun = (args, scope) => {
     if (args.length != params.length) {
       throw new TypeError('Wrong number of arguments');
     }
+    /**
+     * exercise: 12.2: Closure recognition
+     *
+     * A closure is created when a function retains access to variables from its outer scope.
+     * Here, localScope is a new object created with scope as its prototype:
+     * - This creates a scope chain where variables are first looked up in localScope,
+     *   then in its prototype (scope), and so on
+     * - This mechanism allows for lexical scoping, enabling closures
+     */
     let localScope = Object.create(scope);
     for (let i = 0; i < args.length; i++) {
       localScope[params[i]] = args[i];
