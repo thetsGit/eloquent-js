@@ -75,4 +75,68 @@ specialForms.fun = (args, scope) => {
   };
 };
 
+/**
+ * While version
+ */
+
+specialForms.set = (args, scope) => {
+  if (args.length != 2) {
+    throw new SyntaxError('Incorrect use of set: Expected exactly 2 arguments');
+  }
+
+  if (args[0].type != 'word') {
+    throw new SyntaxError(
+      'Incorrect use of set: First argument must be a variable name',
+    );
+  }
+
+  const key = args[0].name;
+
+  let prototype = scope;
+  while (prototype) {
+    if (Object.hasOwn(prototype, key)) {
+      const val = evaluate(args[1], scope);
+      prototype[key] = val;
+      return val;
+    } else {
+      prototype = Object.getPrototypeOf(prototype);
+    }
+  }
+
+  throw new ReferenceError(`${key} is not defined!`);
+};
+
+/**
+ * Recursive version: less readable
+ */
+// specialForms.set = (args, scope) => {
+//   if (args.length != 2) {
+//     throw new SyntaxError('Incorrect use of set: Expected exactly 2 arguments');
+//   }
+
+//   if (args[0].type != 'word') {
+//     throw new SyntaxError(
+//       'Incorrect use of set: First argument must be a variable name',
+//     );
+//   }
+
+//   const key = args[0].name;
+//   const val = evaluate(args[1], scope);
+
+//   if (Object.hasOwn(scope, key)) {
+//     scope[key] = val;
+//     return val;
+//   }
+
+//   const prototype = Object.getPrototypeOf(scope);
+//   if (prototype) {
+//     // Copy properties up the prototype chain because 'val' only exists in the first recursive call's scope,
+//     // but we need to modify it from deeper recursive calls
+//     const aggregatedScope = Object.assign(prototype, scope);
+//     return specialForms.set(args, aggregatedScope);
+//   }
+
+//   throw new ReferenceError(`${key} is not defined!`);
+// };
+
 module.exports = { specialForms };

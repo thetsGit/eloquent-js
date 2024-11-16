@@ -48,3 +48,17 @@ console.log(parse('a # one\n   # two\n()'));
 // → {type: "apply",
 //    operator: {type: "word", name: "a"},
 //    args: []}
+
+/**
+ * Set tests
+ */
+
+run(`
+do(define(x, 4),
+   define(setx, fun(val, set(x, val))),
+   setx(50),
+   print(x))
+`);
+// → 50
+run(`set(quux, true)`);
+// → Some kind of ReferenceError
