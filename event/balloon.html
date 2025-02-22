@@ -1,0 +1,42 @@
+<p>🎈</p>
+
+<script>
+  const MAX_SIZE = 100;
+  const MIN_SIZE = 10;
+  const INITIAL_SIZE = MIN_SIZE;
+  const EXPLODE_EMOJI = '💥';
+  const CHANGE_RATE = 0.1; // 10 percent
+  const balloon = document.querySelector('p');
+
+  const toPx = (num) => num + 'px';
+  const toNum = (size) => Number(size.slice(0, -2));
+  const getCurrentSize = () => balloon.style.fontSize;
+  const changeSize = (sizeInNum) => (balloon.style.fontSize = toPx(sizeInNum));
+
+  const inflate = () => {
+    const newSize = toNum(getCurrentSize()) * (1 + CHANGE_RATE);
+    if (newSize > MAX_SIZE) handleExplode();
+    else changeSize(newSize);
+  };
+
+  const deflate = () => {
+    const newSize = toNum(getCurrentSize()) * (1 - CHANGE_RATE);
+    changeSize(Math.max(newSize, MIN_SIZE));
+  };
+
+  /* Initialize the balloon size */
+  changeSize(INITIAL_SIZE);
+
+  function handleKeydown(e) {
+    e.preventDefault();
+    if (e.key === 'ArrowUp') inflate();
+    else if (e.key === 'ArrowDown') deflate();
+  }
+
+  function handleExplode() {
+    balloon.textContent = EXPLODE_EMOJI;
+    document.removeEventListener('keydown', handleKeydown);
+  }
+
+  document.addEventListener('keydown', handleKeydown);
+</script>
