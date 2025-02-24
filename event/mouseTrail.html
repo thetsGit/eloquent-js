@@ -1,0 +1,107 @@
+<style>
+  .trail {
+    /* className for the trail elements */
+    position: absolute;
+    height: 6px;
+    width: 6px;
+    border-radius: 3px;
+    background: teal;
+    opacity: 0;
+  }
+  body {
+    height: 300px;
+  }
+</style>
+
+<script>
+  const BUFFER_SIZE = 100;
+  const TRAIL_LIFETIME_IN_MS = 2000;
+
+  const timeoutIds = [];
+
+  /** Create trail elements and append to the body in advance to optimize DOM operations */
+  const createTrailElement = () =>
+    Object.assign(document.createElement('div'), { className: 'trail' });
+  const trails = Array.from({ length: BUFFER_SIZE }, createTrailElement);
+  document.body.append(...trails);
+
+  /** Prepare circular buffer for trail elements recycling */
+  const { enqueue, dequeue } = (() => {
+    let size = 0;
+    let head = 0;
+    let tail = -1;
+
+    const circulateIndex = (index) => index % BUFFER_SIZE;
+
+    const dequeue = () => {
+      /**
+       * If the buffer is empty, return false to indicate that the buffer is empty
+       * Otherwise, increment the head index and decrement the size
+       * Return the new head index
+       */
+      if (size === 0) {
+        return false;
+      }
+      [oldHead, head] = [head, circulateIndex(head + 1)];
+      return size--, oldHead;
+    };
+
+    const enqueue = () => {
+      /**
+       * If the buffer is full, return false to indicate that the buffer is full
+       * Otherwise, increment the tail index and increment the size
+       * Return the new tail index
+       */
+      if (size === BUFFER_SIZE) {
+        return false;
+      }
+      return size++, (tail = circulateIndex(tail + 1));
+    };
+
+    return { enqueue, dequeue };
+  })();
+
+  const showTrailElement = ({ index, left, top }) => {
+    requestAnimationFrame(() => {
+      trails[index].style.opacity = 1;
+      trails[index].style.transform = `translate(${left}px, ${top}px)`;
+    });
+  };
+
+  const hideTrailElement = ({ index }) => {
+    requestAnimationFrame(() => {
+      trails[index].style.opacity = 0;
+    });
+  };
+
+  const updateTrail = ({ left, top }) => {
+    let tail;
+
+    /**
+     * Request a new tail for the next trail
+     *
+     * If the buffer is full, dequeue (move head) and hide the oldest trail,
+     * then request a new tail again after dequeing to insert the current trail element
+     */
+    if ((tail = enqueue()) === false) {
+      if ((head = dequeue()) !== false) {
+        clearTimeout(timeoutIds[head]);
+        hideTrailElement({ index: head });
+      }
+      tail = enqueue();
+    }
+
+    showTrailElement({ index: tail, left, top });
+
+    /** Hide the element after its lifetime passed */
+    timeoutIds[tail] = setTimeout(() => {
+      if ((index = dequeue()) !== false) {
+        hideTrailElement({ index });
+      }
+    }, TRAIL_LIFETIME_IN_MS);
+  };
+
+  window.addEventListener('mousemove', ({ clientX, clientY }) =>
+    updateTrail({ left: clientX, top: clientY }),
+  );
+</script>
