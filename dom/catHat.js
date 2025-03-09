@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 let cat = document.querySelector('#cat');
 let hat = document.querySelector('#hat');
 

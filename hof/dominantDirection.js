@@ -1,4 +1,4 @@
-const { SCRIPTS } = require('./scripts');
+const { SCRIPTS } = require('./scripts.data');
 
 function dominantDirection(text) {
   function countBy(items, getName) {

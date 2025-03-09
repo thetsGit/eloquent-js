@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 function byTagName(node, tagName) {
   const matchedNodes = [];
 

@@ -9,7 +9,6 @@ function primitiveMultiply(a, b) {
 }
 
 function reliableMultiply(a, b) {
-  // eslint-disable-next-line no-constant-condition
   while (true) {
     try {
       return primitiveMultiply(a, b);
